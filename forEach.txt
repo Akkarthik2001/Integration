@@ -1,0 +1,25 @@
+for-each:
+->allows you to do looping in XSLT.
+->loops through each node in a specified node set.
+-> Selected node becomes the current node.
+
+Syntax:
+<xsl:for-each select="xpath">
+	<!--Content-->
+</xsl:for-each>
+
+-->select = The value of the select attribute is an XPath expression.
+
+---------------------------------------------------------------------
+for-each filtering:
+
+We can also filter the output from the XML file by adding a criterion to the 
+select attribute in the <xsl:for-each> element.
+
+<xsl:for-each select="catalog/cd[artist='Bob Dylan']">
+
+Legal Filter Operators:
+a) = 
+b) !=
+c) &gt; (greater than)
+d) &lt; (less than)

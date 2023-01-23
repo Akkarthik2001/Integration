@@ -1,0 +1,18 @@
+choose:
+
+defined as the if-else construct that contains a 
+sequence of conditions with multiple variables.
+
+Syntax:
+
+<xsl:choose>
+  <xsl:when test="expression">
+    ... some output ...
+  </xsl:when>
+  <xsl:otherwise>
+    ... some output ....
+  </xsl:otherwise>
+</xsl:choose>
+
+To insert a multiple conditional test against the XML file, add the <xsl:choose>, 
+<xsl:when>, and <xsl:otherwise> elements to the XSL file.

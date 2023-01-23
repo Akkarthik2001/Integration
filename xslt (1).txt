@@ -1,0 +1,120 @@
+<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
+
+
+<xsl:variable name="Cost">
+<xsl:value-of select="Order/Item[0]/Price"/>
+</xsl:variable>
+
+
+<xsl:template match="/">
+
+
+<xsl:if test="preceeding-sibling::node//Book" />
+<xsl:if test="self::node//Book" />
+<xsl:if test="following-sibling::node//Book" />
+<xsl:if test="parent::node//Book" />
+<xsl:if test="namespace::node//Book" />
+<xsl:if test="child::node//Book" />
+<xsl:if test="attribute::node//Book" />
+<xsl:if test="ancestor::node//Book" />
+<xsl:if test="ancestor-or-self::node//Book" />
+<xsl:if test="descendant::node//Book" />
+<xsl:if test="descendant-or-self::node//Book" />
+<xsl:if test="following::node//Book" />
+<xsl:if test="preceeding::node//Book" />
+<xsl:choose >
+<xsl:when test=""/>
+<xsl:otherwise />
+</xsl:choose>
+
+<xsl:for-each select="Order/Item">
+<xsl:value-of select="Price"/>
+<xsl:value-of select="./Price"/>
+<xsl:value-of select="concat(element1,element2)" />
+<xsl:value-of select="$cost"/>
+<xsl:value-of select="substring(string,starting position)"/>
+<xsl:value-of select="substring-after(variable name, "Keerthana")"/>
+<xsl:value-of select="substring-before(variable name, "Keerthana")"/>
+<xsl:value-of select="substring(string,starting position,length)"/>
+<xsl:value-of select="namespace-uri(.)"/>
+<xsl:value-of select="normalize-space("Keerthana Byrishetty")"/>
+<xsl:value-of select="name(.)"/>
+</xsl:for-each>
+
+<xsl:apply-templates select="Order/Item/Price"  mode="get"/>
+<xsl:call-template name="">
+<xsl:with-param name="" select="" />
+
+</xsl:call-template>
+<xsl:copy select="Order/Item"/>
+<xsl:copy-of select="Order/Item"/>
+
+</xsl:template>
+
+<xsl:template match="Order/Item/Price">
+<cost>
+<xsl:value-of select="current()"/>
+<xsl:value-of select="."/>
+</cost>
+</xsl:template>
+
+</xsl:stylesheet>
+
+
+<Order id="12345">
+	<CustomerName>Keerthana</CustomerName>
+	<Item>
+		<ItemId>002</ItemId>
+		<ItemName>iPhone</ItemName>
+		<Price>10000</Price>
+		<Quantity>1</Quantity>
+	</Item>
+	<Item>
+		<ItemId>003</ItemId>
+		<ItemName>iPad</ItemName>
+		<Price>30000</Price>
+		<Quantity>1</Quantity>
+	</Item>
+	<Item>
+		<ItemId>005</ItemId>
+		<ItemName>Book</ItemName>
+		<Price>300</Price>
+		<Quantity>1</Quantity>
+	</Item>
+</Order>
+
+
+<bookstore xmlns:nf="http://www.w3.org/TR/nonfict"
+          xmlns:f="https://www.w3schools.com/fict">
+
+
+
+<f:book>
+  <f:title lang="en">Harry Potter 2</f:title>
+  <f:price>29.99</f:price>
+</f:book>
+
+
+
+<nf:book>
+  <nf:title lang="en">abcd</nf:title>
+  <nf:price>39.95</nf:price>
+</nf:book>
+
+
+
+<f:book>
+  <f:title lang="en">Harry Potter 1</f:title>
+  <f:price>29.99</f:price>
+</f:book>
+
+
+
+<nf:book>
+  <nf:title lang="en">The</nf:title>
+  <nf:price>39.95</nf:price>
+</nf:book>
+
+
+
+</bookstore>

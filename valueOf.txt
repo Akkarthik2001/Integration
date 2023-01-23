@@ -1,0 +1,9 @@
+value-of:
+<xsl:value-of> puts the value of selected node as per XPath expression.
+
+Syntax:
+<xsl:value-of select="xpath xpression"/>
+
+-->Used to extract a specific value of selected node.
+-->evaluates an XPath expression, converts it to a string, 
+and writes that string to the result tree.

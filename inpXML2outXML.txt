@@ -1,0 +1,29 @@
+CREATE PROCEDURE InpXML2OutXML() BEGIN
+		DECLARE a INTEGER 1;
+		DECLARE b INTEGER 1;
+		DECLARE j INTEGER 1;
+		DECLARE transType REFERENCE TO InputRoot.XMLNSC.SaleEnvelope.Header;
+		FOR iref AS InputRoot.XMLNSC.SaleEnvelope.SaleList.Invoice[] DO
+			SET OutputRoot.XMLNSC.SaleEnvelope.SaleList.TransformationType = transType.TransformationType;
+			SET OutputRoot.XMLNSC.SaleEnvelope.SaleList.Statement[a].Customer.Initials = iref.Initial[b] || iref.Initial[b + 1];
+			SET OutputRoot.XMLNSC.SaleEnvelope.SaleList.Statement[a].Customer.Name = iref.Surname;
+			SET OutputRoot.XMLNSC.SaleEnvelope.SaleList.Statement[a].Customer.Balance = iref.Balance;
+						
+			SET OutputRoot.XMLNSC.SaleEnvelope.SaleList.Statement[a].(XMLNSC.Attribute)Style = 'Full';
+			SET OutputRoot.XMLNSC.SaleEnvelope.SaleList.Statement[a].(XMLNSC.Attribute)Type = 'Monthly';
+			
+			FOR ref AS InputRoot.XMLNSC.SaleEnvelope.SaleList.Invoice[a].Item[] DO
+				SET OutputRoot.XMLNSC.SaleEnvelope.SaleList.Statement[a].Purchases.Article[j].Desc = ref.Description;
+				SET OutputRoot.XMLNSC.SaleEnvelope.SaleList.Statement[a].Purchases.Article[j].Cost = CAST(ref.Price AS DECIMAL) * CAST(ref.Quantity AS DECIMAL);
+				SET OutputRoot.XMLNSC.SaleEnvelope.SaleList.Statement[a].Purchases.Article[j].Qty = ref.Quantity;
+				SET j = j + 1;
+			END FOR;
+			
+			SET OutputRoot.XMLNSC.SaleEnvelope.SaleList.Statement[a].Amount.(XMLNSC.Attribute)Currency = iref.Currency;
+			SET OutputRoot.XMLNSC.SaleEnvelope.SaleList.Statement[a].Amount = a + 0.320;
+			
+			SET a = a + 1;
+			SET j = 1;
+			
+		END FOR;
+	END;

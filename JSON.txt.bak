@@ -1,0 +1,110 @@
+1) OBJECT: is a collection of fields (properties)
+
+A) Simple Object:
+
+{
+  "employee1": [
+    {
+      "name": "Sonoo",
+      "salary": 56000,
+      "married": true
+    }
+  ]
+}
+
+To find the value of married -> employee1.married
+
+B) Object Of Objects:
+
+{
+  "employee1": [
+    {
+      "name": "Sonoo",
+      "salary": 56000,
+      "married": true
+    }],
+  "employee2": [
+    {
+      "name": "Sonoo",
+      "salary": 56000,
+      "married": true
+    }
+  ]
+}
+
+To find the salary of employee2 -> employee2.salary
+
+C) Array Of Objects:
+
+{
+  "Employees": [
+    {
+      "employee": {
+        "name": "sonoo",
+        "salary": 56000,
+        "married": true
+      },
+      "employee": {
+        "name": "sonoo",
+        "salary": 56000,
+        "married": true
+      },
+      "employee": {
+        "name": "sonoo",
+        "salary": 56000,
+        "married": true
+      }
+    }
+  ]
+}
+
+To find the name of employee -> Employees[1].employee.name
+
+D) Object Of Arrays:
+
+{
+  "Data": {
+    "Employees": [
+     {
+       "employee1": {
+         "name": "sonoo",
+         "salary": 56000,
+         "married": true
+       },
+       "employee2": {
+         "name": "sonoo",
+         "salary": 56000,
+         "married": true
+       },
+       "employee3": {
+         "name": "sonoo",
+         "salary": 56000,
+         "married": true
+       }
+     }
+   ],
+   "Customers": [
+     {
+       "customer1": {
+         "name": "sonoo",
+         "salary": 56000,
+         "married": true
+       },
+       "customer2": {
+         "name": "sonoo",
+         "salary": 56000,
+         "married": true
+       },
+       "customer3": {
+         "name": "sonoo",
+         "salary": 56000,
+         "married": true
+       }
+     }
+   ]    
+ }
+}
+
+To find the customer1 salary -> Data.Customers[0].customer1.salary
+
+2) Supports different data types-String,number,boolean,decimal,enum,array etc.

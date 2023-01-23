@@ -1,0 +1,183 @@
+JSON SCHEMA
+
+1) Simple Object Schema:
+
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "title": "Employee Details",
+  "type": "object",
+  "properties": {
+	 "employee1": {
+		"properties": {
+			"name": {
+				"description": "string",
+				"type": "string"
+			},
+			"salary": {
+				"description": "string",
+				"type": "integer"
+			},
+			"married": {
+				"description": "string",
+				"type": "boolean"
+			}
+		}
+	 }
+   }
+}
+
+2) Array of objects Schema:
+
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "title": "Employee details",
+  "type": "object",
+  "properties": {
+	"Employees": {
+		"type": "array",
+		"items": [{
+			"type": "object",
+			"properties": {
+				"employee": {
+					"type": "object",
+					"properties": {
+						"name": {
+							"description": "",
+							"type": "string"
+						},
+						"salary": {
+							"description": "",
+							"type": "integer"
+						},
+						"married": {
+							"description": "",
+							"type": "boolean"
+						}
+					}
+				}
+			}
+		}]
+	}
+  }
+}
+
+3) Object of Arrays schema:
+
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "title": "Employee Details",
+  "type": "object",
+  "properties": {
+    "Data": {
+      "type": "object",
+      "properties": {
+        "Employees": {
+          "type": "array",
+          "items": [
+            {
+              "type": "object",
+              "properties": {
+                "employee": {
+                  "type": "object",
+                  "properties": {
+                    "name": {
+                      "description": "",
+                      "type": "string"
+                    },
+                    "salary": {
+                      "description": "",
+                      "type": "integer"
+                    },
+                    "married": {
+                      "description": "",
+                      "type": "boolean"
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        },
+        "Customers": {
+          "type": "array",
+          "items": [
+            {
+              "type": "object",
+              "properties": {
+                "customer": {
+                  "type": "object",
+                  "properties": {
+                    "name": {
+                      "description": "",
+                      "type": "string"
+                    },
+                    "salary": {
+                      "description": "",
+                      "type": "integer"
+                    },
+                    "married": {
+                      "description": "",
+                      "type": "boolean"
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        }
+      }
+    }
+  }
+}
+
+
+4) Object of objects schema:
+
+{
+    "$schema": "http://json-schema.org/draft-04/schema#",
+    "title": "Employee Details",
+    "type": "object",
+    "properties": {
+        "employee1": {
+            "type": "object",
+            "properties":{
+                "name": {
+                    "description": "",
+                    "type": "string"
+                },
+                "salary": {
+                    "description": "",
+                    "type": "integer"
+                },
+                "married": {
+                    "description": "",
+                    "type": "boolean"
+                }
+            }
+        },
+        "employee2": {
+            "type": "object",
+            "properties": {
+                "name": {
+                    "description": "",
+                    "type": "string"
+                },
+                "salary": {
+                    "description": "",
+                    "type": "integer"
+                },
+                "married": {
+                    "description": "",
+                    "type": "boolean"
+                }
+            }
+        }
+    }
+}
+
+
+
+
+
+
+

@@ -1,0 +1,19 @@
+if:
+The <xsl:if> element is used to put a conditional test against the content of the XML file.
+To put a conditional if test against the content of the XML file, add an <xsl:if> element to the XSL document.
+
+Syntax:
+<xsl:if test="expression">  
+  ...some output if the expression is true...  
+</xsl:if>
+
+->test: specifies a condition in xml data to test.
+
+To add a conditional test, add the <xsl:if> element inside the <xsl:for-each> element in the XSL file.
+
+Eg:
+<xsl:for-each select="class/employee">
+	<xsl:if test="salary > 10000">
+		<xsl:value-of select="./firstname"/>
+	</xsl:if>
+</xsl:for-each>

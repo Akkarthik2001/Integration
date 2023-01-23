@@ -1,0 +1,9 @@
+dp:accept - Allows or rejects further message processing.
+dp:freeze-headers - Locks header values and prevents further processing.
+dp:gatewayscript - calls gatewayscript prgm from XSLT.
+dp:reject - denies access through DP service.
+dp:send-error - stops transaction and sends custom error msg to client.
+dp:set-local-variable - assigns value to a local context variable.
+dp:set-target - specifies target server of client request.
+dp:Set-variable - assigns value to context variable.
+dp:url-open - uses a protocol to send data to or receive data from a URL.

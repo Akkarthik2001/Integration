@@ -1,0 +1,14 @@
+It is another form of XML.
+conversion of json to xml can be done directly.
+xml to json can't be done due to inconsistency of fields.
+so we convert xml to jsonx to json
+
+<json:object name="Order">
+	<json:string name="CustomerName">Karthik</json:string>
+	<json:array name="Item">
+		<json:number name="ItemId">001</json:number>
+		<json:string name="ItemName">iPhone</json:string>
+		<json:number name="Price">100000</json:number>
+		<json:number name="Quantity">1</json:number>
+	</json:array>
+</json:object>

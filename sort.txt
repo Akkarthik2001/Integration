@@ -1,0 +1,20 @@
+sort:
+The <xsl:sort> element is used to sort the output.
+
+To sort the output, simply add an <xsl:sort> element inside the <xsl:for-each> element in the XSL file.
+lets you sort a group of similar elements.
+
+Syntax:
+<xsl:sort   
+   select = string-expression    
+   lang = { nmtoken }   
+   data-type = { "text" | "number" | QName }   
+   order = { "ascending" | "descending" }   
+   case-order = { "upper-first" | "lower-first" } >   
+</xsl:sort>  
+
+->select: It is used for sorting key of the node
+->lang: specifies language alphabet used to determine sort order.
+->data-type: specifies data-type of the text.
+->order: used to specify the sorting order. By default sorting order is ascending order.
+->case-order: used to specify sorting order of string by capitalization. Default is "upper-first".
