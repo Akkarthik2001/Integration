@@ -1,0 +1,43 @@
+1) Explore  ASBITSTREAM, Coalesce, Cardinality, LastMove,SubString functions in ESQL
+
+--> ASBITSTREAM: 
+CREATE PROCEDURE Asbit() BEGIN
+		SET OutputRoot.XMLNSC.employees = ASBITSTREAM(InputRoot.XMLNSC);
+	END;
+
+--> Coalesce:
+CREATE PROCEDURE coalse() BEGIN
+		CREATE FIELD OutputRoot.XMLNSC.employees.employee;
+		DECLARE a INTEGER 1;
+		DECLARE coalInp REFERENCE TO InputRoot.XMLNSC.employees;
+		DECLARE coalOut REFERENCE TO OutputRoot.XMLNSC.employees;
+		SET coalOut.employee[a].empName = COALESCE(coalInp.employee[a].empName, 'Mahesh');
+		SET a = a + 1;
+		SET coalOut.employee[a].empName = COALESCE(coalInp.employee[a].empName, 'Suresh');
+		SET a = a + 1;
+		SET coalOut.employee[a].empName = COALESCE(coalInp.employee[a].empName, 'Rakesh');
+	END;
+
+--> Cardinality:
+CREATE PROCEDURE Cardin() BEGIN
+		SET OutputRoot.XMLNSC.Count = CARDINALITY(InputRoot.XMLNSC.employees.employee[]);
+	END;
+
+--> LastMove:
+CREATE PROCEDURE Lastmov() BEGIN
+		DECLARE lastref REFERENCE TO InputRoot.XMLNSC.employees.employee[1];
+		WHILE LASTMOVE(lastref) = TRUE DO
+			SET OutputRoot.XMLNSC.employees.employee.empFname = lastref.empName;
+			MOVE lastref NEXTSIBLING;
+		END WHILE;
+	END;
+
+--> Substring:
+CREATE PROCEDURE substrin() BEGIN
+		CREATE FIELD OutputRoot.XMLNSC.employees;
+		DECLARE InpSub REFERENCE TO InputRoot.XMLNSC.employees.employee.empName;
+		DECLARE sub REFERENCE TO OutputRoot.XMLNSC.employees;
+		SET sub.empName = SUBSTRING(InpSub AFTER 'a');
+		SET sub.empName1 = SUBSTRING(InpSub BEFORE 'k');
+		SET sub.empName2 = SUBSTRING(InpSub FROM 4 FOR 4);	
+	END;
