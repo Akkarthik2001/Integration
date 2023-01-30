@@ -1,0 +1,116 @@
+1) Create a procedure to combine Initials.  
+
+CREATE PROCEDURE CombineInitials() BEGIN
+		DECLARE a INTEGER 1;
+		DECLARE b INTEGER 1;
+		FOR iref AS InputRoot.XMLNSC.SaleEnvelope.SaleList.Invoice[] DO
+			SET OutputRoot.XMLNSC.SaleEnvelope.SaleList.Invoice[a].Initials = iref.Initial[b] || iref.Initial[b + 1];
+			SET a = a + 1;
+		END FOR;
+	END;
+
+2) Amount is calculated as cost multiplied by Quantity.
+
+CREATE PROCEDURE CalculateCost() BEGIN
+		DECLARE i INTEGER 1;
+		DECLARE j INTEGER 1;
+		FOR inref AS InputRoot.XMLNSC.SaleEnvelope.SaleList.Invoice[] DO
+			FOR ref AS InputRoot.XMLNSC.SaleEnvelope.SaleList.Invoice[i].Item[] DO
+				SET OutputRoot.XMLNSC.SaleEnvelope.SaleList.Invoice[i].Item[j].Cost = CAST(ref.Price AS DECIMAL) * CAST(ref.Quantity AS DECIMAL);
+				SET j = j + 1;
+			END FOR;
+			SET i = i + 1;
+			SET j = 1;
+		END FOR;
+	END;
+
+3) Value of TransformationType must be "Object" if nothing is passed.
+
+CREATE PROCEDURE TransformationTypeObj() BEGIN
+		DECLARE InpRef REFERENCE TO InputRoot.XMLNSC.SaleEnvelope.Header;
+		IF InpRef.TransformationType = ' ' THEN
+			SET OutputRoot.XMLNSC.SaleEnvelope.Header.TransformationType = 'Object';
+		END IF;
+	END;
+
+4) Add attributes as mentioned in the output xml.
+
+CREATE PROCEDURE AddAttributes() BEGIN
+		DECLARE i INTEGER 1;
+		FOR Atbr AS InputRoot.XMLNSC.SaleEnvelope.SaleList.Invoice[] DO
+			SET OutputRoot.XMLNSC.SaleEnvelope.SaleList.Statement[i].(XMLNSC.Attribute)Style = 'Full';
+			SET OutputRoot.XMLNSC.SaleEnvelope.SaleList.Statement[i].(XMLNSC.Attribute)Type = 'Monthly';
+			SET OutputRoot.XMLNSC.SaleEnvelope.SaleList.Statement[i].Amount.(XMLNSC.Attribute)Currency = Atbr.Currency;
+			SET OutputRoot.XMLNSC.SaleEnvelope.SaleList.Statement[i].Amount = i + 0.320;
+			SET i = i + 1;
+		END FOR;
+	END;
+
+5) Convert xml to JSON.
+- Input XML to Output XML:
+CREATE PROCEDURE InpXML2OutXML() BEGIN
+		DECLARE a INTEGER 1;
+		DECLARE b INTEGER 1;
+		DECLARE j INTEGER 1;
+		DECLARE transType REFERENCE TO InputRoot.XMLNSC.SaleEnvelope.Header;
+		SET OutputRoot.XMLNSC.SaleEnvelope.SaleList.TransformationType = transType.TransformationType;
+		CREATE FIELD OutputRoot.XMLNSC.SaleEnvelope.SaleList.Statement.Customer;
+		DECLARE outRef REFERENCE TO OutputRoot.XMLNSC.SaleEnvelope.SaleList;
+		FOR iref AS InputRoot.XMLNSC.SaleEnvelope.SaleList.Invoice[] DO
+			SET outRef.Statement[a].Customer.Initials = iref.Initial[b] || iref.Initial[b + 1];
+			SET outRef.Statement[a].Customer.Name = iref.Surname;
+			SET outRef.Statement[a].Customer.Balance = iref.Balance;
+			
+			SET outRef.Statement[a].(XMLNSC.Attribute)Style = 'Full';
+			SET outRef.Statement[a].(XMLNSC.Attribute)Type = 'Monthly';
+			
+			FOR ref AS InputRoot.XMLNSC.SaleEnvelope.SaleList.Invoice[a].Item[] DO
+				SET outRef.Statement[a].Purchases.Article[j].Desc = ref.Description;
+				SET outRef.Statement[a].Purchases.Article[j].Cost = CAST(ref.Price AS DECIMAL) * CAST(ref.Quantity AS DECIMAL);
+				SET outRef.Statement[a].Purchases.Article[j].Qty = ref.Quantity;
+				SET j = j + 1;
+			END FOR;
+			
+			SET outRef.Statement[a].Amount.(XMLNSC.Attribute)Currency = iref.Currency;
+			SET outRef.Statement[a].Amount = a + 0.320;
+			
+			SET a = a + 1;
+			SET j = 1;
+		END FOR;
+	END;
+
+- Output XML to JSON:
+CREATE PROCEDURE Xml2Json() BEGIN
+		DECLARE transType REFERENCE TO InputRoot.XMLNSC.SaleEnvelope.SaleList;
+		SET OutputRoot.JSON.Data.SaleEnvelope.SaleList.TransformationType = transType.TransformationType;
+		
+		CREATE FIELD OutputRoot.JSON.Data.SaleEnvelope.SaleList.Statement IDENTITY (JSON.Array) Statement;
+		
+		DECLARE a INTEGER 1;
+		DECLARE b INTEGER 1;
+		DECLARE j INTEGER 1;
+		DECLARE jsonref REFERENCE TO OutputRoot.JSON.Data.SaleEnvelope.SaleList;
+		FOR iref AS InputRoot.XMLNSC.SaleEnvelope.SaleList.Statement[] DO
+			SET jsonref.Statement.Item[a].Style = iref.(XMLNSC.Attribute)Style;
+			SET jsonref.Statement.Item[a].Type = iref.(XMLNSC.Attribute)Type;
+			
+			SET jsonref.Statement.Item[a].Customer.Initials = iref.Customer.Initials;
+			SET jsonref.Statement.Item[a].Customer.Name = iref.Customer.Name;
+			SET jsonref.Statement.Item[a].Customer.Balance = iref.Customer.Balance;
+			
+			FOR ref AS InputRoot.XMLNSC.SaleEnvelope.SaleList.Statement[a].Purchases.Article[] DO
+				SET jsonref.Statement.Item[a].Purchases.Article[b].Desc = ref.Desc;
+				SET jsonref.Statement.Item[a].Purchases.Article[b].Cost = ref.Cost;
+				SET jsonref.Statement.Item[a].Purchases.Article[b].Qty = ref.Qty;
+				SET b = b + 1;
+			END FOR;
+			
+			SET jsonref.Statement.Item[a].Amount.Currency = iref.Amount.(XMLNSC.Attribute)Currency;
+			SET jsonref.Statement.Item[a].Amount.text = iref.Amount;			
+			
+			SET a = a + 1;
+			SET b = 1;
+		END FOR;
+	END;
+
+
