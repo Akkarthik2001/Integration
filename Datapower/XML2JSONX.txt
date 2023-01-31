@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
+	xmlns:json="http://www.ibm.com/xmlns/prod/2009/jsonx"
+	xmlns:dp="http://www.datapower.com/extensions"
+	extension-element-prefixes="dp">
+	<xsl:template match="/root">
+		<!-- TODO: Auto-generated template -->
+		<json:object>
+			<json:string name="name">
+				<xsl:value-of select="name"/>
+			</json:string>
+			<json:string name="job">
+				<xsl:value-of select="job"/>
+			</json:string>
+		</json:object>
+
+		<dp:set-variable name="'var://service/routing-url'" value="'https://reqres.in/api/users'" />
+		<dp:set-variable name="'var://service/routing-url-sslprofile'" value="'client:karthik_TLS'" />
+	</xsl:template>
+</xsl:stylesheet>

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsl:stylesheet version="1.0"
+	xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
+	xmlns:json="http://www.ibm.com/xmlns/prod/2009/jsonx"
+	xmlns:dp="http://www.datapower.com/extensions"
+	extension-element-prefixes="dp">
+
+	<xsl:template match="/">
+		<xsl:variable name="xml2jsonx">
+			<json:object>
+				<json:string name="name">
+					<xsl:value-of select="root/name" />
+				</json:string>
+				<json:string name="job">
+					<xsl:value-of select="root/job" />
+				</json:string>
+			</json:object>
+		</xsl:variable>
+
+		<xsl:variable name="jsonx2json">
+			<xsl:copy-of
+				select="dp:transform('store:///jsonx2json.xsl',$xml2jsonx)" />
+		</xsl:variable>
+
+		<xsl:variable name="data">
+			<dp:url-open target="https://reqres.in/api/users"
+				response="responsecode-binary" content-type="application/json"
+				ssl-proxy="client:client_profile" http-method="post">
+				<xsl:copy-of select="$jsonx2json" />
+			</dp:url-open>
+		</xsl:variable>
+
+		<dp:set-http-request-header name="'Content-type'" value="'application/json'" />
+		<xsl:copy-of select="dp:decode(dp:binary-encode($data/result/binary/node()), 'base-64')"/>
+	</xsl:template>
+</xsl:stylesheet>
